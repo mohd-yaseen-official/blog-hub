@@ -1,0 +1,29 @@
+{% extends "users/auth_base.html" %}
+{% load static %}
+
+{% block 'authoraization' %}
+    <form action="" method="post">
+        
+        {% csrf_token %}
+        
+        {% for field in form %}
+
+            <div class="input_container">
+                <label for="{{ field.id_for_label }}"> {{ field.label }}</label>
+                {{ field }}
+            </div>
+
+        {% endfor %}
+        
+        <div class="submit_container">
+            {% if message %}
+                <p class="error-message">
+                    {{ message }}
+                </p>
+            {% endif %}
+            <button type="submit">Create Account</button>
+
+            <a href="{% url "users:login" %}">Login To Account</a>
+        </div>
+    </form>
+{% endblock %}

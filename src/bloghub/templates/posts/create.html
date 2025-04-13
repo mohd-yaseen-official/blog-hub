@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="spotlight">
+        <h3>Create new post</h3>
+        <form action="" method="post" class="ajax redirect" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-field">
+                    <label for="{{form.title.id_for_label}}" class="subheads" >
+                        {{form.title.label}}
+                    </label>
+                    {{form.title}}
+                </div>
+                <div class="form-field">
+                    <label for="{{form.description.id_for_label}}" class="subheads">
+                       {{form.description.label}}
+                    </label>
+                    <div class="description">
+                        <div class="editor" data-field-id="id_description" style="display: inline-block;">
+                            {{form.description}}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label class="subheads" for="{{form.short_description.id_for_label}}">
+                        {{form.short_description.label}}
+                    </label>
+                    {{form.short_description}}
+                </div>
+                <div class="form-field">
+                    <label class="subheads" for="{{form.tags.id_for_label}}">
+                        {{form.tags.label}}
+                    </label>
+                    {{form.tags}}
+                </div>
+                <div class="form-field">
+                    <label for="{{form.time_duration.id_for_label}}" class="subheads" >
+                        {{form.time_duration.label}}
+                    </label>
+                    {{form.time_duration}}
+ 
+                </div>
+                <div class="form-field">
+                    <label for="{{form.featured_image.id_for_label}}" class="subheads" >
+                        {{form.featured_image.label}}
+                    </label>
+                    {{form.featured_image}}
+                </div>
+                <div class="form-field"></div>
+                    <label class="checkbox">
+                        {{form.is_draft}}
+                        Is draft
+                    </label>
+                </div>
+                <div class="form-field">
+                    <input type="submit" value="Submit" />
+                </div>
+        </form>
+        {{ form.media }}
+    </section>
+{% endblock content %} 
+                
+{% block ck-editor %}
+    <script src="{% static "./js/jquery-3.6.0.min.js" %}"></script>
+    <script src="{% static "./js/script.js" %}"></script>
+    <script>ClassicEditor
+        .create( document.querySelector( '.editor' ), {
+            
+            licenseKey: '',
+            
+            
+            
+        } )
+        .then( editor => {
+            window.editor = editor;
+    
+            
+            
+            
+        } )
+        .catch( error => {
+            console.error( 'Oops, something went wrong!' );
+            console.error( 'Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:' );
+            console.warn( 'Build id: fbn1rnj89y5k-nohdljl880ze' );
+            console.error( error );
+        } );
+    </script>
+
+{% endblock ck-editor %}
+

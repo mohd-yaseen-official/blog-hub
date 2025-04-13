@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="UTF-8" />
+        {% if post %}
+        <title>Blog Hub | {{title}} "{{post.title|truncatewords:5}}"</title>
+        {% endif %}
+        <link
+            rel="stylesheet"
+            href="{% static "./css/style.css" %}"
+            type="text/css"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="{% static './images/icons/blog-logo.svg'  %}"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:image" content="" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <script src="{% static "./js/jquery-3.6.0.min.js" %}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="{% static "./js/script.js" %}"></script>
+    </head>
+    <body>
+    <section id="{{ page_id }}">
+        <section class="wrapper">
+            <header>
+                <h1>
+                    <a href="{% url 'web:index' %}">
+                        <img
+                            src="{% static './images/icons/blog-logo.svg' %}"
+                            alt="Logo"
+                        />
+                    </a>
+                </h1>
+                <div>
+                    {% if request.user.is_authenticated %}
+
+                        {% if request.first_name and request.user.last_name %}
+                            <h4>{{ request.user.first_name}} {{request.user.last_name }}</h4>
+                        {% else %}
+                            <h4>{{ request.user.username}}</h4>
+                        {% endif %}
+                        
+                        {% if page_id == "home" or page_id == "single-post-home" or page_id == "my-posts-home" %}
+                            <a href="{% url "posts:create_post" %}" class="login"> Create Post </a>
+                        {% endif %}
+                        
+                        {% if not page_id == "my-posts-home" %}
+                            <a href="{% url "posts:my_posts" %}" class="login"> My Posts </a>
+                        {% endif %}
+
+                        <a href="{% url "users:logout" %}" class="login"> Logout </a>
+
+                        {% if page_id == "home" or page_id == "single-post-home"%}
+                            <div id="user-details">
+                                <button>X</button>
+                                <h5>Name: {{ request.user.first_name}} {{request.user.last_name }}</h5>
+                                <h5>Username: {{request.user.username}}</h5>
+                                <h5>Email: {{request.user.email}}</h5>
+                            </div>
+                        {% endif %}
+
+                    {% else %}
+
+                        <a href="{% url "users:login" %}" class="login"> Login </a>
+
+                    {% endif %}
+
+                    
+                <div>
+                <div id="hamburger-icon">
+                    <img
+                        src="{% static './images/icons/hamburger.svg' %}"
+                        alt="Hamburger"
+                    />
+                </div>
+            </header>
+            
+            {% block content %}
+            {% endblock %}
+        </section>
+    </section>
+
+    {% block ck-editor %}
+    {% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}      
+{% load static %}
+{% block content %}
+    <section class="single-page-spotlight">
+        <div class="blog-category">
+            {% for tag in post.categories.all %}
+                <span class="category">
+                    {{tag.title}}
+                </span>
+            {% endfor %}
+            <span class="read">
+                <span class="clock">
+                    <img src="{% static './images/icons/clock.svg' %}" alt="Clock" />
+                </span>
+                {{post.time_duration}}
+            </span>
+        </div>
+        <h3 class="title">
+            {{post.title}}
+        </h3>
+        <p class="description">
+            {{post.short_description}}
+        </p>
+        <div class="post-thumbnail">
+            <img src="{{post.featured_image.url}}" alt="Post-thumbnail" >
+        </div>
+        <div class="details">
+            <span class="published">
+                <p class="written">
+                    Written by
+                </p>
+                <p class="name">
+                    {{post.author.name}} {{post.author.user.email}}
+                </p>
+            </span>
+            <span class="published">
+                <p class="written">
+                    Published on
+                </p>
+                <p class="name">
+                    {{post.published_date}}
+                </p>
+            </span>
+            <ul class="social">
+                <li>
+                    <a href="#" class="copy-link">
+                        <span class="link">
+                            <img src="{% static './images/icons/copy-link.svg' %}" alt="Copy-link" />
+                        </span>
+                        Copy link
+                    </a>
+                </li>
+                <li class="social-media">
+                    <a target="_blank" href="http://twitter.com/share?text={{post.title}}&url={{request.build_absolute_uri}}">
+                        <img src="{% static './images/icons/twitter.svg' %}" alt="Twitter" />
+                    </a>
+                </li>
+
+                <li class="social-media">
+                    <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{request.build_absolute_uri}}">
+                        <img src="{% static './images/icons/facebook.svg' %}" alt="Facebook" />
+                    </a>
+                </li>
+                <li class="social-media">
+                    <a target="_blank" href="https://api.whatsapp.com/send/?text={{post.title}}{{request.build_absolute_uri}}">
+                        <img src="{% static './images/icons/whatsapp.svg' %}" alt="Whatsapp" />
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="detailed-description">
+            {{post.description|safe}}
+        </div>
+        
+    </section>
+{% endblock %}

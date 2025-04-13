@@ -1,0 +1,76 @@
+{% extends "base.html" %}      
+{% load static %}
+{% block content %}
+{% load paginator_tags %}
+    <section class="spotlight">
+        <h3>
+            My Posts
+        </h3>
+        <ul class="posts">
+            {% for post in paginator_instance %}
+                <li class="post">
+                    <div class="top">
+                        <h5 class="title">
+                            {{post.title}}
+                        </h5>
+                        <div class="buttons">
+                            <a
+                            class="action-button danger reload" 
+                            href="{% url "posts:delete_post" pk=post.pk %}" 
+                            data-text="Are you sure want to remove this post. You can't undo this action." 
+                            data-title="Confirm Delete!"
+                            title="Delete!"
+                        >
+                                <img src="{% static './images/icons/delete.svg' %}" alt="Delete" />
+                            </a>
+                            <a class="warning"
+                            href="{% url "posts:edit_post" pk=post.pk %}" 
+                            data-text="Are you sure want to edit this post. You can't undo this action." 
+                            data-title="Confirm Edit!"
+                            title="Edit!"
+                            >
+                                <img src="{% static './images/icons/pencil.svg' %}" alt="Edit" />
+                            </a>
+                            {% if post.is_draft %}
+                                <a class="action-button success reload" 
+                                    href="{% url "posts:draft_or_publish" post.id %}"
+                                    data-text="Are you sure want to update this post" 
+                                    data-title="Confirm Status!"
+                                    title="Publish"
+                                >
+                                    <img src="{% static './images/icons/sheet.svg' %}" alt="Edit" />
+                                </a>
+                            {% else %}
+                                <a class="action-button danger reload" 
+                                        href="{% url "posts:draft_or_publish" post.id %}"
+                                        data-text="Are you sure want to draft this post" 
+                                        data-title="Confirm Status!"
+                                        title="Draft"
+                                    >
+                                        <img src="{% static './images/icons/sheet.svg' %}" alt="Edit" />
+                                    </a>
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                    <p class="description">
+                        {{post.short_description}}
+                    </p>
+                    <div class="bottom">
+                        <a href="{% url "web:post_page" id=post.id %}" class="view">
+                            View
+                            <span>
+                                <img src="{% static './images/icons/up-arrow.svg' %}" alt="Arrow">
+                            </span>
+                        </a>
+                        <p class="date">
+                            {{post.published_date}}
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    {% load_pagination paginator_instance %}
+{% endblock %}
